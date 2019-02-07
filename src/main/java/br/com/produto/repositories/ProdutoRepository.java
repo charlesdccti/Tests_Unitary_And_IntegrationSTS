@@ -19,6 +19,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer>{
 	/*
 	 * select p from Produto p where p.descricao like '%%'
 	 */
-	public List<Produto> findByDescricaoContaining(@Param("descricao") String string);
+	public List<Produto> findByDescricaoContainingIgnoreCase(@Param("descricao") String string);
 
 }
