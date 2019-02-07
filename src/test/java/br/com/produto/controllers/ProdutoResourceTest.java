@@ -104,7 +104,15 @@ public class ProdutoResourceTest {
 	}
 	
 	
-	
+	@Test
+	public void teste08RequisicaoPostFalha() throws Exception {
+		String url = "/produtos";
+		this.mvc.perform(post(url)
+				.content("{\"des1cricao\": \"Brinquedo\"}")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+		        .andDo(MockMvcResultHandlers.print());
+	}
 	
 	
 	
