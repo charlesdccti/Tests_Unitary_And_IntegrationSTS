@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,5 +67,17 @@ public class ProdutoResource {
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(p.getId()).toUri();
 		return ResponseEntity.created(location).build();
 	}
+	
+	@PutMapping
+	public ResponseEntity<?> Atualizar(@Valid @RequestBody Produto produto) {
+		Optional<Produto> p = repo.findById(produto.getId());
+		if(p.isPresent()) {
+			repo.save(produto);
+			return ResponseEntity.noContent().build();
+		}else {
+			return ResponseEntity.notFound().build();			
+		}
+	}
+	
 	
 }

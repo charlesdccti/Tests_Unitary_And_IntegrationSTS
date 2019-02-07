@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -115,9 +116,37 @@ public class ProdutoResourceTest {
 	}
 	
 	
+	@Test
+	public void teste09RequisicaoPSucesso() throws Exception {
+		String url = "/produtos";
+		this.mvc.perform(put(url)
+				.content("{\"id\": 3, \"descricao\": \"Sandalia Teste\"}")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNoContent())
+		        .andDo(MockMvcResultHandlers.print());
+	}
 	
 	
+	@Test
+	public void teste10RequisicaoPostFalha() throws Exception {
+		String url = "/produtos";
+		this.mvc.perform(put(url)
+				.content("{\"id\": 777, \"descricao\": \"Sandalia Teste\"}")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound())
+		        .andDo(MockMvcResultHandlers.print());
+	}
 	
+	
+	@Test
+	public void teste11RequisicaoPostFalha() throws Exception {
+		String url = "/produtos";
+		this.mvc.perform(put(url)
+				.content("{\"id\": 3, \"descr1icao\": \"Sandalia Teste\"}")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+		        .andDo(MockMvcResultHandlers.print());
+	}
 	
 	
 }
